@@ -18,42 +18,76 @@ app.use(bodyParser.json());
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-async function authorizeKey(callback, res) {
+async function authorizeAndExecute(callback, params) {
   const auth = new google.auth.GoogleAuth({
     keyFile: process.env.API_KEY_PATH,
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    scopes: [
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/drive.file',
+      'https://www.googleapis.com/auth/spreadsheets',
+    ],
   });
-  return await callback(auth, res);
+  return await callback(auth, params).catch(e => {
+    console.error(e);
+    throw e;
+  });;
 }
 
-function listMajors(auth, response) {
-  console.log(process.env.SPREADSHEET_ID)
-  const sheets = google.sheets({version: 'v4', auth: auth});
-  sheets.spreadsheets.values.get({
+async function appendRow(sheets) {
+  const res = await sheets.spreadsheets.batchUpdate({
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: 'Per Month!A23:F',
-  }, (err, res) => {
-    if (err) response.send('The API returned an error: ');
-    const rows = res.data.values;
-    if (rows.length) {
-      console.log('Month, Type:');
-      // Print columns A and E, which correspond to indices 0 and 4.
-      rows.map((row) => {
-        console.log(`${row[0]}, ${row[4]}`);
-      });
-      response.send(rows);
-    } else {
-      response.send('No data found!')
-    }
+    resource: {
+      requests: [
+        {
+          insertDimension: {
+            range: {
+              dimension: 'ROWS',
+              startIndex: 25,
+              endIndex: 26,
+            },
+            inheritFromBefore: false,
+          },
+        },
+      ],
+    },
   });
+  console.log(res.data);
+  return res.data;
+}
+async function addValue(auth, params) {
+  const sheets = google.sheets({version: 'v4', auth: auth});
+  await appendRow(sheets).catch(e => { throw e });
+  const res = await sheets.spreadsheets.values.update({
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    range: 'Per Month!A26:F26',
+    valueInputOption: 'USER_ENTERED',
+    requestBody: {
+      range: 'Per Month!A26:F26',
+      values: [
+        [params.month, params.paymentType, params.description, params.value, params.date, params.type]
+      ],
+    },
+  }).catch(e => {
+    console.log(e);
+    throw e;
+  });
+  return res.data;
 }
 
-app.get('/version', async (req, res) => {
-  await authorizeKey(listMajors, res);
+
+app.get('/readValue', async (req, res) => {
+  let response = await authorizeAndExecute(readValue);
+  res.send(response);
 });
 
-app.post('/values', async (req, res) => {
-  
+app.post('/addValues', async (req, res) => {
+  console.log(req.body)
+  await authorizeAndExecute(addValue, req.body).then(result => {
+    res.send(result)
+  })
+  .catch(e => {
+    res.send(e)
+  });
 });
 
 app.listen(5000, (err) => {
