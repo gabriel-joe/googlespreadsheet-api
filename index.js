@@ -75,9 +75,8 @@ async function addValue(auth, params) {
 }
 
 
-app.get('/readValue', async (req, res) => {
-  let response = await authorizeAndExecute(readValue);
-  res.send(response);
+app.get('/spreadsheetid', async (req, res) => {
+  res.send(process.env.SPREADSHEET_ID);
 });
 
 app.post('/addValues', async (req, res) => {
