@@ -68,7 +68,6 @@ function validateFields(params) {
     description: params.description,
     date: params.date
   }
-  console.log(expense.month)
   return expense;
 }
 async function appendRow(sheets) {
