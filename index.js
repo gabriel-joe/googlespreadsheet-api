@@ -1,7 +1,21 @@
 const {google} = require('googleapis');
 const dotenv = require('dotenv')
 const result = dotenv.config()
- 
+
+let monthArray = new Array();
+monthArray[0] = "01";
+monthArray[1] = "02";
+monthArray[2] = "03";
+monthArray[3] = "04";
+monthArray[4] = "05";
+monthArray[5] = "06";
+monthArray[6] = "07";
+monthArray[7] = "08";
+monthArray[8] = "09";
+monthArray[9] = "10";
+monthArray[10] = "11";
+monthArray[11] = "12";
+
 if (result.error) {
   throw result.error
 }
@@ -33,6 +47,30 @@ async function authorizeAndExecute(callback, params) {
   });;
 }
 
+function validateFields(params) {
+  if(!params.date)
+      throw 'Date is required'
+  if(!params.paymentType)
+      throw 'Payment type is required'
+  if(!params.type)
+      throw 'Type is required'
+  if(!params.value)
+      throw 'Value is required'
+  if(!params.description)
+      throw 'Description is required'
+
+  const date = new Date(params.date)
+  let expense = {
+    month: `${monthArray[date.getMonth()]}/${date.getFullYear()}`,
+    paymentType: params.paymentType,
+    type: params.type,
+    value: params.value,
+    description: params.description,
+    date: params.date
+  }
+  console.log(expense.month)
+  return expense;
+}
 async function appendRow(sheets) {
   const res = await sheets.spreadsheets.batchUpdate({
     spreadsheetId: process.env.SPREADSHEET_ID,
@@ -57,6 +95,7 @@ async function appendRow(sheets) {
 async function addValue(auth, params) {
   const sheets = google.sheets({version: 'v4', auth: auth});
   await appendRow(sheets).catch(e => { throw e });
+  let expense = validateFields(params);
   const res = await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SPREADSHEET_ID,
     range: 'Per Month!A26:F26',
@@ -64,7 +103,7 @@ async function addValue(auth, params) {
     requestBody: {
       range: 'Per Month!A26:F26',
       values: [
-        [params.month, params.paymentType, params.description, params.value, params.date, params.type]
+        [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
       ],
     },
   }).catch(e => {
@@ -73,7 +112,6 @@ async function addValue(auth, params) {
   });
   return res.data;
 }
-
 
 app.get('/spreadsheetid', async (req, res) => {
   res.send(process.env.SPREADSHEET_ID);
