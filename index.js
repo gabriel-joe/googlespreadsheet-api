@@ -59,16 +59,6 @@ function validateFields(params) {
   if(!params.description)
       throw 'Description is required'
 
-  const date = new Date(params.date)
-  let expense = {
-    month: `${monthArray[date.getMonth()]}/${date.getFullYear()}`,
-    paymentType: params.paymentType,
-    type: params.type,
-    value: params.value,
-    description: params.description,
-    date: params.date
-  }
-  return expense;
 }
 async function appendRow(sheets) {
   const res = await sheets.spreadsheets.batchUpdate({
@@ -79,10 +69,10 @@ async function appendRow(sheets) {
           insertDimension: {
             range: {
               dimension: 'ROWS',
-              startIndex: 25,
-              endIndex: 26,
+              startIndex: 24,
+              endIndex: 25,
             },
-            inheritFromBefore: false,
+            inheritFromBefore: true,
           },
         },
       ],
@@ -94,15 +84,15 @@ async function appendRow(sheets) {
 async function addValue(auth, params) {
   const sheets = google.sheets({version: 'v4', auth: auth});
   await appendRow(sheets).catch(e => { throw e });
-  let expense = validateFields(params);
+  validateFields(params);
   const res = await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: 'Per Month!A26:F26',
+    range: 'Per Month!B25:F25',
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      range: 'Per Month!A26:F26',
+      range: 'Per Month!B25:F25',
       values: [
-        [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
+        [params.paymentType, params.description, params.value, params.date, params.type]
       ],
     },
   }).catch(e => {
