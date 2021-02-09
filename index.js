@@ -98,10 +98,10 @@ async function addValue(auth, params) {
   let expense = validateFields(params);
   const res = await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: 'Per Month!B25:F25',
+    range: 'Per Month!A25:F25',
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      range: 'Per Month!B25:F25',
+      range: 'Per Month!A25:F25',
       values: [
         [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
       ],
@@ -123,7 +123,7 @@ app.post('/addValues', async (req, res) => {
     res.send(result)
   })
   .catch(e => {
-    res.send(e)
+    next(e)
   });
 });
 
