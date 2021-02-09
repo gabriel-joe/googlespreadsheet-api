@@ -59,9 +59,8 @@ function validateFields(params) {
   if(!params.description)
       throw 'Description is required'
 
-  const date = new Date(params.date)
   let expense = {
-    month: `${monthArray[date.getMonth()]}/${date.getFullYear()}`,
+    month: formatDateMMYYYY(params.date),
     paymentType: params.paymentType,
     type: params.type,
     value: params.value,
@@ -71,6 +70,12 @@ function validateFields(params) {
   return expense;
 
 }
+
+function formatDateMMYYYY(dateValue) {
+  const date = new Date(dateValue);
+  return `${monthArray[date.getMonth()]}/${date.getFullYear()}`
+}
+
 async function appendRow(sheets) {
   const res = await sheets.spreadsheets.batchUpdate({
     spreadsheetId: process.env.SPREADSHEET_ID,
@@ -113,17 +118,44 @@ async function addValue(auth, params) {
   return res.data;
 }
 
+async function readBalanceMonth(auth, params) {
+  const sheets = google.sheets({version: 'v4', auth: auth});
+  let fullDate = formatDateMMYYYY(params.date);
+  const res = await sheets.spreadsheets.values.batchGet({
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    ranges: 'Per Month!A3:F17',
+  }).catch(e => {
+    console.log(e);
+    throw e;
+  });
+  let value = 0;
+  res.data.valueRanges[0].values.forEach(item => {
+    if(item[0] == fullDate)
+      value = item[5];
+  })
+  return value;
+}
+
 app.get('/spreadsheetid', async (req, res) => {
   res.send(process.env.SPREADSHEET_ID);
+});
+
+app.get('/readBalanceMonth/:date', async (req, res) => {
+  await authorizeAndExecute(readBalanceMonth, req.params).then(result => {
+    res.status(200).send(result)
+  })
+  .catch(e => {
+    res.status(500).send(e)
+  });
 });
 
 app.post('/addValues', async (req, res) => {
   console.log(req.body)
   await authorizeAndExecute(addValue, req.body).then(result => {
-    res.send(result)
+    res.status(200).send(result)
   })
   .catch(e => {
-    next(e)
+    res.status(500).send(e);
   });
 });
 
