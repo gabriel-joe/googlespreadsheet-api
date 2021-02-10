@@ -133,7 +133,7 @@ async function readBalanceMonth(auth, params) {
     if(item[0] == fullDate)
       value = item[5];
   })
-  return value;
+  return { "value": value };
 }
 
 app.get('/spreadsheetid', async (req, res) => {
