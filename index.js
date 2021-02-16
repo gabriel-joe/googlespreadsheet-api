@@ -1,24 +1,12 @@
 const {google} = require('googleapis');
 const dotenv = require('dotenv')
 const result = dotenv.config()
-
-let monthArray = new Array();
-monthArray[0] = "01";
-monthArray[1] = "02";
-monthArray[2] = "03";
-monthArray[3] = "04";
-monthArray[4] = "05";
-monthArray[5] = "06";
-monthArray[6] = "07";
-monthArray[7] = "08";
-monthArray[8] = "09";
-monthArray[9] = "10";
-monthArray[10] = "11";
-monthArray[11] = "12";
+const common = require('./common');
 
 if (result.error) {
   throw result.error
 }
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -61,8 +49,8 @@ function validateFields(params) {
 
   let expense = {
     month: formatDateMMYYYY(params.date),
-    paymentType: params.paymentType,
-    type: params.type,
+    paymentType: common.paymentTypeArray[params.paymentType],
+    type: common.capitalize(params.type),
     value: params.value,
     description: params.description,
     date: params.date
@@ -73,7 +61,7 @@ function validateFields(params) {
 
 function formatDateMMYYYY(dateValue) {
   const date = new Date(dateValue);
-  return `${monthArray[date.getMonth()]}/${date.getFullYear()}`
+  return `${common.monthArray[date.getMonth()]}/${date.getFullYear()}`
 }
 
 async function appendRow(sheets) {
