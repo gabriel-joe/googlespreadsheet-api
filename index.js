@@ -97,7 +97,7 @@ async function addValue(auth, params) {
     requestBody: {
       range: 'Per Month!A25:F25',
       values: [
-        [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
+        [expense.month, expense.paymentType, expense.description, parseInt(expense.value), expense.date, expense.type]
       ],
     },
   }).catch(e => {
@@ -120,7 +120,7 @@ async function readBalanceMonth(auth, params) {
   let value = 0;
   res.data.valueRanges[0].values.forEach(item => {
     if(item[0] == fullDate)
-      value = item[5];
+      value = item[5].replace("€","").replace(" ", "");
   })
   return { "value": value };
 }
