@@ -149,6 +149,7 @@ app.get('/spreadsheetid', async (req, res) => {
 });
 
 app.get('/readBalanceMonth/:date', async (req, res) => {
+  console.log(req.body)
   await authorizeAndExecute(readBalanceMonth, req.params).then(result => {
     res.status(200).send(result)
   })
@@ -158,6 +159,7 @@ app.get('/readBalanceMonth/:date', async (req, res) => {
 });
 
 app.get('/readBalanceMonth/:date/:type', async (req, res) => {
+  console.log(req.body)
   await authorizeAndExecute(readBalanceMonthType, req.params).then(result => {
     res.status(200).send(result)
   })
