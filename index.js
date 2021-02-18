@@ -64,6 +64,7 @@ function formatDateMMYYYY(dateValue) {
   return `${common.monthArray[date.getMonth()]}/${date.getFullYear()}`
 }
 
+
 async function appendRow(sheets) {
   const res = await sheets.spreadsheets.batchUpdate({
     spreadsheetId: process.env.SPREADSHEET_ID,
@@ -124,12 +125,40 @@ async function readBalanceMonth(auth, params) {
   return { "value": value };
 }
 
+async function readBalanceMonthType(auth, params) {
+  const sheets = google.sheets({version: 'v4', auth: auth});
+  let fullDate = formatDateMMYYYY(params.date);
+  let type = common.capitalize(params.type)
+  const res = await sheets.spreadsheets.values.batchGet({
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    ranges: 'Per Month!A23:F1000',
+  }).catch(e => {
+    console.log(e);
+    throw e;
+  });
+  let value = 0;
+  res.data.valueRanges[0].values.forEach(item => {
+    if(item[0] == fullDate && item[5] == type)
+      value += parseInt(item[3].replace("€", "").replace(" ", ""));
+  })
+  return { "value": value };
+}
+
 app.get('/spreadsheetid', async (req, res) => {
   res.send(process.env.SPREADSHEET_ID);
 });
 
 app.get('/readBalanceMonth/:date', async (req, res) => {
   await authorizeAndExecute(readBalanceMonth, req.params).then(result => {
+    res.status(200).send(result)
+  })
+  .catch(e => {
+    res.status(500).send(e)
+  });
+});
+
+app.get('/readBalanceMonth/:date/:type', async (req, res) => {
+  await authorizeAndExecute(readBalanceMonthType, req.params).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
