@@ -51,7 +51,7 @@ function validateFields(params) {
     month: formatDateMMYYYY(params.date),
     paymentType: common.paymentTypeArray[params.paymentType],
     type: common.capitalize(params.type),
-    value: params.value,
+    value: Number(params.value),
     description: params.description,
     date: params.date
   }
@@ -97,7 +97,7 @@ async function addValue(auth, params) {
     requestBody: {
       range: 'Per Month!A25:F25',
       values: [
-        [expense.month, expense.paymentType, expense.description, parseFloat(expense.value), expense.date, expense.type]
+        [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
       ],
     },
   }).catch(e => {
@@ -139,7 +139,7 @@ async function readBalanceMonthType(auth, params) {
   let value = 0;
   res.data.valueRanges[0].values.forEach(item => {
     if(item[0] == fullDate && item[5] == type)
-      value += parseFloat(item[3].replace("€", "").replace(" ", ""));
+      value += Number(item[3].replace("€", "").replace(" ", ""));
   })
   return { "value": value };
 }
