@@ -139,7 +139,7 @@ async function readBalanceMonthType(auth, params) {
   let value = 0;
   res.data.valueRanges[0].values.forEach(item => {
     if(item[0] == fullDate && item[5] == type)
-      value += Number(item[3].replace("€", "").replace(" ", ""));
+      value += parseFloat(item[3]);
   })
   return { "value": value };
 }
