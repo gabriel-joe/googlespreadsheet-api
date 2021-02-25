@@ -125,6 +125,24 @@ async function readBalanceMonth(auth, params) {
   return { "value": value };
 }
 
+async function readSavingsMonth(auth, params) {
+  const sheets = google.sheets({version: 'v4', auth: auth});
+  let fullDate = formatDateMMYYYY(params.date);
+  const res = await sheets.spreadsheets.values.batchGet({
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    ranges: 'Per Month!A3:F17',
+  }).catch(e => {
+    console.log(e);
+    throw e;
+  });
+  let value = 0;
+  res.data.valueRanges[0].values.forEach(item => {
+    if(item[0] == fullDate)
+      value = item[2].replace("€","").replace(" ", "");
+  })
+  return { "value": value };
+}
+
 async function readBalanceMonthType(auth, params) {
   const sheets = google.sheets({version: 'v4', auth: auth});
   let fullDate = formatDateMMYYYY(params.date);
@@ -150,7 +168,6 @@ app.get('/spreadsheetid', async (req, res) => {
 });
 
 app.get('/readBalanceMonth/:date', async (req, res) => {
-  console.log(req.body)
   await authorizeAndExecute(readBalanceMonth, req.params).then(result => {
     res.status(200).send(result)
   })
@@ -160,8 +177,16 @@ app.get('/readBalanceMonth/:date', async (req, res) => {
 });
 
 app.get('/readBalanceMonth/:date/:type', async (req, res) => {
-  console.log(req.body)
   await authorizeAndExecute(readBalanceMonthType, req.params).then(result => {
+    res.status(200).send(result)
+  })
+  .catch(e => {
+    res.status(500).send(e)
+  });
+});
+
+app.get('/readSavingsMonth/:date', async (req, res) => {
+  await authorizeAndExecute(readSavingsMonth, req.params).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
