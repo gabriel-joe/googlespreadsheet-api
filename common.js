@@ -16,6 +16,18 @@ let paymentTypeArray = []
 paymentTypeArray["cartão"] = "Bank"
 paymentTypeArray["dinheiro"] = "Phisical"
 
+let typeCastArray = []
+typeCastArray["mercado"] = "Market"
+typeCastArray["shopping"] = "Shopping"
+typeCastArray["comida"] = "Food"
+typeCastArray["apartamento"] = "Apt-Fees"
+typeCastArray["transporte"] = "Transport"
+typeCastArray["celular"] = "Cellphone"
+typeCastArray["transferência"] = "Transfer"
+typeCastArray["farmácia"] = "Farmacy"
+typeCastArray["taxas"] = "Tax fees"
+typeCastArray["outros"] = "Others"
+
 function capitalize (s) {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
@@ -24,5 +36,6 @@ function capitalize (s) {
 module.exports = {
     paymentTypeArray: paymentTypeArray,
     monthArray: monthArray,
+    typeCastArray: typeCastArray,
     capitalize: capitalize
 }
