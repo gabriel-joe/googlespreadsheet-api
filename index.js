@@ -146,7 +146,7 @@ async function readSavingsMonth(auth, params) {
 async function readBalanceMonthType(auth, params) {
   const sheets = google.sheets({version: 'v4', auth: auth});
   let fullDate = formatDateMMYYYY(params.date);
-  let type = common.capitalize(params.type)
+  let type = common.typeCastArray[params.type]
   const res = await sheets.spreadsheets.values.batchGet({
     spreadsheetId: process.env.SPREADSHEET_ID,
     ranges: 'Per Month!A23:F1000',
