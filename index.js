@@ -167,31 +167,40 @@ app.get('/spreadsheetid', async (req, res) => {
   res.send(process.env.SPREADSHEET_ID);
 });
 
-app.get('/readBalanceMonth/:date', async (req, res) => {
+app.post('/readBalanceMonth', async (req, res) => {
+  console.log('------------- readBalanceMonth ------------')
+  console.log(req.body)
   await authorizeAndExecute(readBalanceMonth, req.params).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
     res.status(500).send(e)
   });
+  console.log('--------------------------')
 });
 
-app.get('/readBalanceMonth/:date/:type', async (req, res) => {
+app.get('/readBalanceMonthType', async (req, res) => {
+  console.log('------------- readBalanceMonthType ------------')
+  console.log(req.body)
   await authorizeAndExecute(readBalanceMonthType, req.params).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
     res.status(500).send(e)
   });
+  console.log('--------------------------')
 });
 
-app.get('/readSavingsMonth/:date', async (req, res) => {
+app.post('/readSavingsMonth', async (req, res) => {
+  console.log('------------- Read Savings month ------------')
+  console.log(req.body)
   await authorizeAndExecute(readSavingsMonth, req.params).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
     res.status(500).send(e)
   });
+  console.log('--------------------------')
 });
 
 app.post('/addValues', async (req, res) => {
