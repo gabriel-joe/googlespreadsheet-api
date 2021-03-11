@@ -170,7 +170,7 @@ app.get('/spreadsheetid', async (req, res) => {
 app.post('/readBalanceMonth', async (req, res) => {
   console.log('------------- readBalanceMonth ------------')
   console.log(req.body)
-  await authorizeAndExecute(readBalanceMonth, req.params).then(result => {
+  await authorizeAndExecute(readBalanceMonth, req.body).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
@@ -182,7 +182,7 @@ app.post('/readBalanceMonth', async (req, res) => {
 app.get('/readBalanceMonthType', async (req, res) => {
   console.log('------------- readBalanceMonthType ------------')
   console.log(req.body)
-  await authorizeAndExecute(readBalanceMonthType, req.params).then(result => {
+  await authorizeAndExecute(readBalanceMonthType, req.body).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
@@ -194,7 +194,7 @@ app.get('/readBalanceMonthType', async (req, res) => {
 app.post('/readSavingsMonth', async (req, res) => {
   console.log('------------- Read Savings month ------------')
   console.log(req.body)
-  await authorizeAndExecute(readSavingsMonth, req.params).then(result => {
+  await authorizeAndExecute(readSavingsMonth, req.body).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
