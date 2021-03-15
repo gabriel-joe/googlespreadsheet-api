@@ -179,7 +179,7 @@ app.post('/readBalanceMonth', async (req, res) => {
   console.log('--------------------------')
 });
 
-app.get('/readBalanceMonthType', async (req, res) => {
+app.post('/readBalanceMonthType', async (req, res) => {
   console.log('------------- readBalanceMonthType ------------')
   console.log(req.body)
   await authorizeAndExecute(readBalanceMonthType, req.body).then(result => {
