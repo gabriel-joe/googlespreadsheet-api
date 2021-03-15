@@ -154,13 +154,22 @@ async function readBalanceMonthType(auth, params) {
     console.log(e);
     throw e;
   });
-  let value = 0;
+  let valueMonth = 0;
+  let valueTotal = 0;
   res.data.valueRanges[0].values.forEach(item => {
-    if(item[0] == fullDate && item[5] == type){
-      value += parseFloat(item[3].replace(",", "."));
+    if(item[0] == fullDate){
+      let valueParse = parseFloat(item[3].replace(",", "."));
+      
+      if(item[5] == type)
+        valueMonth += valueParse
+
+      valueTotal += valueParse
     }
   })
-  return { "value": value };
+  return { 
+    "valueMonth": valueMonth,
+    "valueTotal": valueTotal
+  };
 }
 
 app.get('/spreadsheetid', async (req, res) => {
