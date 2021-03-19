@@ -52,7 +52,7 @@ function formatDateMMYYYY(dateValue) {
 
 function formatDateDDMMYYYY(dateValue) {
   const date = new Date(dateValue);
-  return `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDay()}`
+  return `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate()}`
 }
 
 module.exports = {
