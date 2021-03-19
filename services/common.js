@@ -1,4 +1,4 @@
-const dateFormat = require('dateformat');
+const months = ["01", "02", "03", "04", "05", "06", "07","08","09","10","11","12"]
 
 let paymentTypeArray = []
 paymentTypeArray["cartão"] = "Bank"
@@ -47,12 +47,12 @@ function validateFields(params) {
 
 function formatDateMMYYYY(dateValue) {
   const date = new Date(dateValue);
-  return dateFormat(date, 'mm/yyyy');
+  return `${months[date.getMonth()]}/${date.getFullYear()}`
 }
 
 function formatDateDDMMYYYY(dateValue) {
   const date = new Date(dateValue);
-  return dateFormat(date, 'yyyy-mm-dd');
+  return `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDay()}`
 }
 
 module.exports = {
