@@ -35,8 +35,8 @@ function validateFields(params) {
   
     let expense = {
       month: formatDateMMYYYY(params.date),
-      paymentType: common.paymentTypeArray[params.paymentType],
-      type: common.typeCastArray[params.type],
+      paymentType: paymentTypeArray[params.paymentType],
+      type: typeCastArray[params.type],
       value: Number(params.value),
       description: params.description,
       date: params.date
