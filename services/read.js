@@ -2,7 +2,7 @@ const { google } = require('googleapis');
 const common = require('./common');
 
 async function readBalanceMonth(auth, params) {
-  return { "value": calculateBalanceMonth(auth, params) };
+  return { "value": await calculateBalanceMonth(auth, params) };
 }
   
 async function readSavingsMonth(auth, params) {
