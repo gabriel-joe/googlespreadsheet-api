@@ -1,5 +1,12 @@
 const months = ["01", "02", "03", "04", "05", "06", "07","08","09","10","11","12"]
 
+let monthsMarket = []
+monthsMarket["04/2021"] = 4
+monthsMarket["05/2021"] = 5
+monthsMarket["06/2021"] = 6
+monthsMarket["07/2021"] = 7
+monthsMarket["08/2021"] = 8
+
 let paymentTypeArray = []
 paymentTypeArray["cartão"] = "Bank"
 paymentTypeArray["dinheiro"] = "Phisical"
@@ -58,6 +65,7 @@ function formatDateDDMMYYYY(dateValue) {
 module.exports = {
     paymentTypeArray: paymentTypeArray,
     typeCastArray: typeCastArray,
+    monthsMarket: monthsMarket,
     capitalize: capitalize,
     validateFields: validateFields,
     formatDateMMYYYY: formatDateMMYYYY,

@@ -4,8 +4,11 @@ const result = dotenv.config()
 const authorize = require('./services/authorize');
 const addService = require('./services/add');
 const readService = require('./services/read');
+const marketService = require('./services/market');
 const pathRead = '/read'
 const pathAdd = '/add'
+const pathMarket = '/market'
+
 if (result.error) {
   throw result.error
 }
@@ -73,6 +76,18 @@ app.post(`${pathAdd}/addValues`, async (req, res) => {
   console.log('------------- addValues ------------')
   console.log(req.body)
   await authorize.authorizeAndExecute(addService.addValue, req.body).then(result => {
+    res.status(200).send(result)
+  })
+  .catch(e => {
+    res.status(500).send(e);
+  });
+  console.log('--------------------------')
+});
+
+app.post(`${pathMarket}/sendList`, async (req, res) => {
+  console.log('------------- sendList ------------')
+  console.log(req.body)
+  await authorize.authorizeAndExecute(marketService.listRemainMarketOptions, req.body).then(result => {
     res.status(200).send(result)
   })
   .catch(e => {
