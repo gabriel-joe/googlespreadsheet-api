@@ -2,7 +2,6 @@ const twilio = require('twilio');
 
 function sendWhatsapp(message) {
     var twilio = require('twilio');
-    let message = "Lista de mercado \n";
     console.log(message)
     var client = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_TOKEN);
     //sendMessage(client, message, 'whatsapp:+351912818030')

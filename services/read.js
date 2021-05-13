@@ -1,7 +1,11 @@
 const { google } = require('googleapis');
 const common = require('./common');
+const whatsapp = require('./whatsapp');
 
 async function readBalanceMonth(auth, params) {
+  let value = await calculateBalanceMonth(auth, params);
+  let message = `${params.date}: ${value}`
+  whatsapp.sendMessage(message)
   return { "value": await calculateBalanceMonth(auth, params) };
 }
   
@@ -27,6 +31,9 @@ async function readBalanceMonthType(auth, params) {
       valueMonth += valueParse
     }
   })
+  let value = await calculateBalanceMonth(auth, params);
+  let message = `${params.date}: ${value}, valueMonth: ${valueMonth}`
+  whatsapp.sendWhatsapp(message)
   return { 
       "valueMonth": valueMonth,
       "valueTotal": await calculateBalanceMonth(auth, params)
@@ -75,6 +82,8 @@ async function readComparableBalanceMonthType(auth, params) {
         valuePast += valueParse
       }
   })
+  let message = `${params.date}: ${valueMonth}, valuePast: ${valuePast}`
+  whatsapp.sendWhatsapp(message)
   return { 
       "valueMonth": valueMonth,
       "valuePast": valuePast
