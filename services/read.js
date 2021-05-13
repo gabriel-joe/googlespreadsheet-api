@@ -32,7 +32,7 @@ async function readBalanceMonthType(auth, params) {
     }
   })
   let value = await calculateBalanceMonth(auth, params);
-  let message = `${params.date}: ${value}, valueMonth: ${valueMonth}`
+  let message = `${params.date}/${params.type}: ${value}, valueMonth: ${valueMonth}`
   whatsapp.sendWhatsapp(message)
   return { 
       "valueMonth": valueMonth,
@@ -82,7 +82,7 @@ async function readComparableBalanceMonthType(auth, params) {
         valuePast += valueParse
       }
   })
-  let message = `${params.date}: ${valueMonth}, valuePast: ${valuePast}`
+  let message = `${params.date}/${params.type}: ${valueMonth}, valuePast: ${valuePast}`
   whatsapp.sendWhatsapp(message)
   return { 
       "valueMonth": valueMonth,
