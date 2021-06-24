@@ -12,7 +12,7 @@ function checkStock() {
 function checkWorten(){
     (async(url) => {
         var buf = await httpGet(url);
-        if(buf.toString().indexOf("Esgotado") != 0){
+        if(buf.toString().indexOf("Esgotado") != -1){
             console.log("Worten | Have stock");
             whatsAppService.sendWhatsapp("Worten | Have stock");
         } else {
@@ -24,7 +24,7 @@ function checkWorten(){
 function checkFnac(){
     (async(url) => {
         var buf = await httpGet(url);
-        if(buf.toString().indexOf("Indisponível online") != 0){
+        if(buf.toString().indexOf("Indisponível online") != -1){
             console.log("FNAC | Have stock");
             whatsAppService.sendWhatsapp("FNAC | Have stock");
         } else {
