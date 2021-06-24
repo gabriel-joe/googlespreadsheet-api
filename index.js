@@ -5,6 +5,7 @@ const authorize = require('./services/authorize');
 const addService = require('./services/add');
 const readService = require('./services/read');
 const marketService = require('./services/market');
+const checkStockService = require('./services/checkStock');
 const pathRead = '/read'
 const pathAdd = '/add'
 const pathMarket = '/market'
@@ -95,6 +96,8 @@ app.post(`${pathMarket}/sendList`, async (req, res) => {
   });
   console.log('--------------------------')
 });
+
+checkStockService.checkStock();
 
 app.listen(5000, (err) => {
   console.log('Listening on port 5000');
