@@ -1,5 +1,5 @@
 
-const wortenLink = " http://www.worten.pt/gaming/playstation/consolas/ps5/consola-ps5-825gb-7196053"
+const wortenLink = "http://www.worten.pt/gaming/playstation/consolas/ps5/consola-ps5-825gb-7196053"
 const fnac = "http://www.fnac.pt/PS5-Standard-Spideman-Miles-Morales-Sackboy-A-Big-Adventure-Consola-Consola/a9030118#int=S:%C3%9ALTIMOS%20ARTIGOS%20VISITADOS|NonApplicable|NonApplicable|9030118|BL1|L1"
 const whatsAppService = require('./whatsapp')
 
@@ -12,11 +12,11 @@ function checkStock() {
 function checkWorten(){
     (async(url) => {
         var buf = await httpGet(url);
-        if(buf.toString().indexOf("Esgotado") === 0){
-            console.log("Worten | Have no stock");
-        } else {
+        if(buf.toString().indexOf("Esgotado") != 0){
             console.log("Worten | Have stock");
             whatsAppService.sendWhatsapp("Worten | Have stock");
+        } else {
+            console.log("Worten | Have no stock");
         }
       })(wortenLink);
 }
@@ -24,11 +24,11 @@ function checkWorten(){
 function checkFnac(){
     (async(url) => {
         var buf = await httpGet(url);
-        if(buf.toString().indexOf("Indisponível online") === 0){
-            console.log("Have no stock");
-        } else {
+        if(buf.toString().indexOf("Indisponível online") != 0){
             console.log("FNAC | Have stock");
             whatsAppService.sendWhatsapp("FNAC | Have stock");
+        } else {
+            console.log("Have no stock");
         }
       })(fnac);
 }
