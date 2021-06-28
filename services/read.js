@@ -5,7 +5,7 @@ const whatsapp = require('./whatsapp');
 async function readBalanceMonth(auth, params) {
   let value = await calculateBalanceMonth(auth, params);
   let message = `${params.date}: ${value}`
-  whatsapp.sendMessage(message)
+  whatsapp.sendWhatsapp(message)
   return { "value": await calculateBalanceMonth(auth, params) };
 }
   
