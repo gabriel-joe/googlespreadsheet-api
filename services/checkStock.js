@@ -4,8 +4,8 @@ const fnac = "http://www.fnac.pt/PS5-Standard-Spideman-Miles-Morales-Sackboy-A-B
 const whatsAppService = require('./whatsapp')
 
 function checkStock() {
-    setInterval(() => { checkLink(wortenLink, "Esgotado", "Worten")  },1000);
-    setInterval(() => { checkLink(fnac, "Indisponível online", "Fnac") },1000);
+    setInterval(() => { checkLink(wortenLink, "Esgotado", "Worten")  },1800000);
+    setInterval(() => { checkLink(fnac, "Indisponível online", "Fnac") },1800000);
     return "Finished interval";
 }
 
