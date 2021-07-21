@@ -97,7 +97,7 @@ app.post(`${pathMarket}/sendList`, async (req, res) => {
   console.log('--------------------------')
 });
 
-checkStockService.checkStock();
+//checkStockService.checkStock();
 
 app.listen(5000, (err) => {
   console.log('Listening on port 5000');
