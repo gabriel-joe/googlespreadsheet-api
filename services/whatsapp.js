@@ -8,6 +8,14 @@ function sendWhatsapp(message) {
     sendMessage(client, message, 'whatsapp:+351910496453')
 }
 
+function sendWhatsappRuben(message) {
+    var twilio = require('twilio');
+    console.log(message)
+    var client = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_TOKEN);
+    //sendMessage(client, message, 'whatsapp:+351912818030')
+    sendMessage(client, message, 'whatsapp:+351914170393')
+}
+
 function sendMessage(client, message, number) {
     client.messages.create({
         //mediaUrl: ['https://images.unsplash.com/photo-1545093149-618ce3bcf49d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'],
@@ -17,6 +25,8 @@ function sendMessage(client, message, number) {
         })
     .then(message => console.log(message.sid));
 }
+
 module.exports = {
-  sendWhatsapp: sendWhatsapp
+  sendWhatsapp: sendWhatsapp,
+  sendWhatsappRuben: sendWhatsappRuben
 }
