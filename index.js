@@ -85,6 +85,18 @@ app.post(`${pathAdd}/addValues`, async (req, res) => {
   console.log('--------------------------')
 });
 
+app.post(`${pathAdd}/addDefaultValue`, async (req, res) => {
+  console.log('------------- addDefaultValue ------------')
+  console.log(req.body)
+  await authorize.authorizeAndExecute(addService.addDefaultValue, req.body).then(result => {
+    res.status(200).send(result)
+  })
+  .catch(e => {
+    res.status(500).send(e);
+  });
+  console.log('--------------------------')
+});
+
 app.post(`${pathMarket}/sendList`, async (req, res) => {
   console.log('------------- sendList ------------')
   console.log(req.body)

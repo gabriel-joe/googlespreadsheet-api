@@ -16,10 +16,13 @@ typeCastArray["mercado"] = "Market"
 typeCastArray["shopping"] = "Shopping"
 typeCastArray["comida"] = "Food"
 typeCastArray["apartamento"] = "Apt-Fees"
+typeCastArray["vida"] = "Lifestyle"
+typeCastArray["aluguel"] = "Rent"
 typeCastArray["transporte"] = "Transport"
 typeCastArray["celular"] = "Cellphone"
 typeCastArray["transferência"] = "Transfer"
-typeCastArray["farmácia"] = "Farmacy"
+typeCastArray["farmácia"] = "Health"
+typeCastArray["saúde"] = "Health"
 typeCastArray["taxas"] = "Tax fees"
 typeCastArray["outros"] = "Others"
 
@@ -52,6 +55,38 @@ function validateFields(params) {
   
 }
 
+function getDefaultExpense(params) {
+    
+    if(params.defaultExpense === 'internet'){
+        params.type = "apartamento"
+        params.value = 27
+        params.description = "NOS"
+    } else if (params.defaultExpense === 'aluguel'){
+        params.type = "aluguel"
+        params.value = 600
+        params.description = "Aluguel"
+    } else if (params.defaultExpense === 'celular'){
+        params.type = "celular"
+        params.value = 24
+        params.description = "Vodafone"
+    } else if (params.defaultExpense === 'academia'){
+        params.type = "vida"
+        params.value = 11
+        params.description = "Academia"
+    } 
+
+    let expense = {
+      month: formatDateMMYYYY(params.date),
+      paymentType: paymentTypeArray["cartão"],
+      type: typeCastArray[params.type],
+      value: Number(params.value),
+      description: params.description,
+      date: params.date
+    }
+    return expense;
+  
+}
+
 function formatDateMMYYYY(dateValue) {
   const date = new Date(dateValue);
   return `${months[date.getMonth()]}/${date.getFullYear()}`
@@ -70,4 +105,5 @@ module.exports = {
     validateFields: validateFields,
     formatDateMMYYYY: formatDateMMYYYY,
     formatDateDDMMYYYY: formatDateDDMMYYYY,
+    getDefaultExpense: getDefaultExpense
 }

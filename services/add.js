@@ -44,6 +44,28 @@ async function addValue(auth, params) {
     return res.data;
 }
 
+async function addDefaultValue(auth, params) {
+  const sheets = google.sheets({version: 'v4', auth: auth});
+  await appendRow(sheets).catch(e => { throw e });
+  let expense = common.getDefaultExpense(params);
+  const res = await sheets.spreadsheets.values.update({
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    range: 'Per Month!A25:F25',
+    valueInputOption: 'USER_ENTERED',
+    requestBody: {
+      range: 'Per Month!A25:F25',
+      values: [
+        [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
+      ],
+    },
+  }).catch(e => {
+    console.log(e);
+    throw e;
+  });
+  return res.data;
+}
+
 module.exports = {
-    addValue: addValue
+    addValue: addValue,
+    addDefaultValue: addDefaultValue
 }
