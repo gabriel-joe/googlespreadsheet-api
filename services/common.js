@@ -26,6 +26,8 @@ typeCastArray["saúde"] = "Health"
 typeCastArray["taxas"] = "Tax fees"
 typeCastArray["outros"] = "Others"
 
+default_range = 'Per Month!A38:F38'
+
 function capitalize (s) {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
@@ -97,6 +99,8 @@ function formatDateDDMMYYYY(dateValue) {
   return `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate()}`
 }
 
+
+
 module.exports = {
     paymentTypeArray: paymentTypeArray,
     typeCastArray: typeCastArray,
@@ -105,5 +109,6 @@ module.exports = {
     validateFields: validateFields,
     formatDateMMYYYY: formatDateMMYYYY,
     formatDateDDMMYYYY: formatDateDDMMYYYY,
-    getDefaultExpense: getDefaultExpense
+    getDefaultExpense: getDefaultExpense,
+    sheetsDefaultRange: default_range,
 }

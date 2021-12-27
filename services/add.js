@@ -10,8 +10,8 @@ async function appendRow(sheets) {
             insertDimension: {
               range: {
                 dimension: 'ROWS',
-                startIndex: 24,
-                endIndex: 25,
+                startIndex: 37,
+                endIndex: 38,
               },
               inheritFromBefore: true,
             },
@@ -29,10 +29,10 @@ async function addValue(auth, params) {
     let expense = common.validateFields(params);
     const res = await sheets.spreadsheets.values.update({
       spreadsheetId: process.env.SPREADSHEET_ID,
-      range: 'Per Month!A25:F25',
+      range: common.sheetsDefaultRange,
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        range: 'Per Month!A25:F25',
+        range: common.sheetsDefaultRange,
         values: [
           [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
         ],
@@ -50,10 +50,10 @@ async function addDefaultValue(auth, params) {
   let expense = common.getDefaultExpense(params);
   const res = await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: 'Per Month!A25:F25',
+    range: common.sheetsDefaultRange,
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      range: 'Per Month!A25:F25',
+      range: common.sheetsDefaultRange,
       values: [
         [expense.month, expense.paymentType, expense.description, expense.value, expense.date, expense.type]
       ],
