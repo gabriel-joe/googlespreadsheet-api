@@ -11,7 +11,7 @@ async function readBalanceMonth(auth, params) {
   
 async function readSavingsMonth(auth, params) {
   let fullDate = common.formatDateMMYYYY(params.date);
-  const res = await getSheetsResponse(auth, 'Per Month!A3:F17')
+  const res = await getSheetsResponse(auth, 'Per Month!A3:F29')
   let value = 0;
   res.data.valueRanges[0].values.forEach(item => {
     if(item[0] == fullDate)
@@ -41,7 +41,7 @@ async function readBalanceMonthType(auth, params) {
 }
 async function calculateBalanceMonth(auth, params) {
   let fullDate = common.formatDateMMYYYY(params.date);
-  const res = await getSheetsResponse(auth, 'Per Month!A3:F17')
+  const res = await getSheetsResponse(auth, 'Per Month!A3:F29')
   let value = 0;
   res.data.valueRanges[0].values.forEach(item => {
     if(item[0] == fullDate)
