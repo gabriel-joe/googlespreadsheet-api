@@ -25,6 +25,8 @@ typeCastArray["farmácia"] = "Health"
 typeCastArray["saúde"] = "Health"
 typeCastArray["taxas"] = "Tax fees"
 typeCastArray["outros"] = "Others"
+typeCastArray["carro"] = "Loan"
+typeCastArray["lazer"] = "Leisure"
 
 default_range = 'Per Month!A38:F38'
 
