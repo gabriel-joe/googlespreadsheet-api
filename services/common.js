@@ -28,7 +28,7 @@ typeCastArray["outros"] = "Others"
 typeCastArray["carro"] = "Loan"
 typeCastArray["lazer"] = "Leisure"
 
-default_range = 'Per Month!A38:F38'
+default_range = 'Per Month!A41:F41'
 
 function capitalize (s) {
     if (typeof s !== 'string') return ''
