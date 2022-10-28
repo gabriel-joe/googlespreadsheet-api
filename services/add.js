@@ -10,8 +10,8 @@ async function appendRow(sheets) {
             insertDimension: {
               range: {
                 dimension: 'ROWS',
-                startIndex: 37,
-                endIndex: 38,
+                startIndex: 40,
+                endIndex: 41,
               },
               inheritFromBefore: true,
             },
