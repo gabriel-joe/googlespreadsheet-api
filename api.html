@@ -1,0 +1,65 @@
+<form id="my-form">
+  <label for="payment">Payment type</label>
+  <select id="payment" name="payment" required>
+    <option value="">Select an option</option>
+    <option value="cartão">Cartão</option>
+    <option value="meal">Refeição</option>
+    <option value="cash">Dinheiro</option>
+  </select>
+  <br>
+  <label for="description">Description</label>
+  <input type="text" id="description" name="description" required>
+  <br>
+  <label for="value">Value:</label>
+  <input type="text" id="value" name="value" required>
+  <br>
+  <label for="date">Date:</label>
+  <input type="date" id="date" name="date" required>
+  <br>
+  <label for="type">Type:</label>
+  <select id="type" name="type" required>
+    <option value="aluguel">Aluguel</option>
+    <option value="mercado">Mercado</option>
+    <option value="taxas">Taxas</option>
+    <option value="comida">Comida</option>
+    <option value="outros">Outros</option>
+  </select>
+  <br>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  const form = document.querySelector('#my-form');
+  
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const data = {
+      paymentType: formData.get('payment'),
+      description: formData.get('description'),
+      value: formData.get('value'),
+      date: formData.get('date'),
+      type: formData.getAll('type')
+    };
+    
+    try {
+      const response = await fetch('http://152.67.39.90/add/addValues', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to submit form: ${response.statusText}`);
+      }
+      
+      alert('Form submitted successfully!');
+      form.reset();
+    } catch (error) {
+      alert(`An error occurred while submitting the form: ${error.message}`);
+    }
+  });
+</script>
