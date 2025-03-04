@@ -23,7 +23,7 @@ async function readSavingsMonth(auth, params) {
 async function readBalanceMonthType(auth, params) {
   let fullDate = common.formatDateMMYYYY(params.date);
   let type = common.typeCastArray[params.type]
-  const res = await getSheetsResponse(auth, 'Per Month!A63:F1000')
+  const res = await getSheetsResponse(auth, 'Per Month!A75:F1000')
   let valueMonth = 0;
   res.data.valueRanges[0].values.forEach(item => {
     if(item[0] == fullDate && item[5] == type){
@@ -69,7 +69,7 @@ async function readComparableBalanceMonthType(auth, params) {
   dateNow.setMonth(dateNow.getMonth() - 1)
   let lastMonth = common.formatDateMMYYYY(dateNow);
   let lastMonthDay = common.formatDateDDMMYYYY(dateNow);
-  const res = await getSheetsResponse(auth, 'Per Month!A63:F1000')
+  const res = await getSheetsResponse(auth, 'Per Month!A75:F1000')
   let valueMonth = 0;
   let valuePast = 0;
   res.data.valueRanges[0].values.forEach(item => {
