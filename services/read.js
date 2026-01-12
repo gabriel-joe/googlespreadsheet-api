@@ -69,7 +69,7 @@ async function readComparableBalanceMonthType(auth, params) {
   dateNow.setMonth(dateNow.getMonth() - 1)
   let lastMonth = common.formatDateMMYYYY(dateNow);
   let lastMonthDay = common.formatDateDDMMYYYY(dateNow);
-  const res = await getSheetsResponse(auth, 'Per Month!A75:F1000')
+  const res = await getSheetsResponse(auth, 'Per Month!A95:F1000')
   let valueMonth = 0;
   let valuePast = 0;
   res.data.valueRanges[0].values.forEach(item => {
